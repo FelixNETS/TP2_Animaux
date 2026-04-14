@@ -1,6 +1,6 @@
 /**********************************************************************/
 /* POISSON.H                                                          */
-/* Module de gestion du cycle de vie des poissons					  */		
+/* Module de gestion du cycle de vie des poissons					  */
 /* Conception : Félix Nadeau				                          */
 /**********************************************************************/
 #include <stdlib.h>
@@ -12,7 +12,6 @@
 /*                             CONSTANTES                             */
 /**********************************************************************/
 
-#define MAX_POISSON			500		//nombre maximal de poissons avant la surpopulation 
 #define MAX_AGE_POISSON		 60		//l’âge maximal d’un poisson  
 #define NB_JRS_PUB_POISSON	 10		//nombre de jours avant la puberté 
 #define NB_JRS_GEST_POISSON	  5		//nombre de jours de gestation 
@@ -24,8 +23,9 @@
 
 /* Type-structure pour la liste des poissons */
 typedef struct {
-	t_animal liste[MAX_POISSON];   //tableau statique des poissons 
+	t_animal* liste;
 	int nb_poissons;
+	int taille_liste;
 } t_liste_poissons;
 
 /**********************************************************************/
@@ -92,3 +92,10 @@ void eliminer_poisson(t_liste_poissons* liste_poissons,
 
 int ajout_bebe_poisson(t_liste_poissons* liste_poissons,
 	t_ocean* ocean, int i);
+
+/*********************** LIBERER LISTE POISSONS ***********************/
+/*	Fonction qui libere la memoire allouee a la liste				  */
+/*	PARAMS: liste des requins										  */
+/**********************************************************************/
+
+void liberer_liste_poissons(t_liste_poissons* liste_poissons);

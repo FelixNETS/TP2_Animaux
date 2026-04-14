@@ -1,8 +1,10 @@
 /******************************************************************************/
-/*  OCEAN.H                                                                   */         
+/*  OCEAN.H                                                                   */
 /*  Module qui permet la gestion des poissons et des requins dans l'ocean     */
 /*  Conception : Jean-Christophe Latreille                                    */
 /******************************************************************************/
+#pragma once
+
 #include "util.h"
 
 #define HAUTEUR 25
@@ -29,7 +31,7 @@ typedef t_case t_ocean[HAUTEUR][LARGEUR];
 /******************************************************************************/
 
 // Recoit l'ocean et met toutes ses cases a {VIDE, RIEN}
-void vider_ocean(t_ocean *ocean);
+void vider_ocean(t_ocean* ocean);
 
 // Recoit une position dans l'ocean et retourne son contenu
 t_contenu get_contenu(const t_ocean ocean, int px, int py);
@@ -38,16 +40,16 @@ t_contenu get_contenu(const t_ocean ocean, int px, int py);
 int get_numero(const t_ocean ocean, int px, int py);
 
 // Recoit une position dans l'ocean et ajoute un nouveau contenu/numero a cet endroit
-void set_contenu(t_ocean *ocean, int px, int py, t_case nouv_case);
+void set_contenu(t_ocean* ocean, int px, int py, t_case nouv_case);
 
 // Recoit une position dans l'ocean et met son contenu a {VIDE, RIEN}
-void effacer_case(t_ocean *ocean, int px, int py);
+void effacer_case(t_ocean* ocean, int px, int py);
 
 // Recoit une poisition dans l'ocean et retourne le nombre de cases voisines qui sont libres
 int get_cases_libres(const t_ocean ocean, int px, int py);
 
 // Recoit une position dans l'ocean et retourne une case voisine libre aleatoire
-void get_case_voisine_alea(const t_ocean ocean, int px, int py, int *rx, int *ry);
+void get_case_voisine_alea(const t_ocean ocean, int px, int py, int* rx, int* ry);
 
 // Recoit l'ocean et affiche son contenu a l'ecran
 void afficher_ocean(const t_ocean ocean);

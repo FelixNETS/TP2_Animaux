@@ -12,7 +12,6 @@
 /*                             CONSTANTES                             */
 /**********************************************************************/
 
-#define MAX_REQUIN			500		//nombre maximal de requins avant la surpopulation 
 #define MAX_AGE_REQUIN	   1500		//l’âge maximal d’un requin  
 #define NB_JRS_PUB_REQUIN	 90		//nombre de jours avant la puberté 
 #define NB_JRS_GEST_REQUIN	 21		//nombre de jours de gestation 
@@ -24,8 +23,9 @@
 
 /* Type-structure pour la liste des requins */
 typedef struct {
-	t_animal liste[MAX_REQUIN];   //tableau statique des requins 
+	t_animal* liste;
 	int nb_requins;
+	int taille_liste;
 } t_liste_requins;
 
 /**********************************************************************/
@@ -92,3 +92,10 @@ void eliminer_requin(t_liste_requins* liste_requins,
 
 int ajout_bebe_requin(t_liste_requins* liste_requins,
 	t_ocean* ocean, int i);
+
+/*********************** LIBERER LISTE REQUINS ************************/
+/*	Fonction qui libere la memoire allouee a la liste				  */
+/*	PARAMS: liste des requins										  */
+/**********************************************************************/
+
+void liberer_liste_requin(t_liste_requins* liste_requins);

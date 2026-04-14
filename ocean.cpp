@@ -8,7 +8,7 @@
 /* Vide l'ocean de tout son contenu                                   */
 /**********************************************************************/
 
-void vider_ocean(t_ocean *ocean) {
+void vider_ocean(t_ocean* ocean) {
 	int i, j;	// Compteurs pour la boucle "for"
 
 	for (i = 0; i < HAUTEUR; i++) {
@@ -23,7 +23,7 @@ void vider_ocean(t_ocean *ocean) {
 /**********************************************************************/
 
 t_contenu get_contenu(const t_ocean ocean, int px, int py) {
-	return ocean[px][py].contenu;
+	return ocean[py][px].contenu;
 }
 
 /***************************** GET_NUMERO *****************************/
@@ -31,7 +31,7 @@ t_contenu get_contenu(const t_ocean ocean, int px, int py) {
 /**********************************************************************/
 
 int get_numero(const t_ocean ocean, int px, int py) {
-	return ocean[px][py].numero;
+	return ocean[py][px].numero;
 }
 
 /**************************** SET_CONTENU *****************************/
@@ -39,7 +39,7 @@ int get_numero(const t_ocean ocean, int px, int py) {
 /**********************************************************************/
 
 void set_contenu(t_ocean* ocean, int px, int py, t_case nouv_case) {
-	(*ocean)[px][py] = nouv_case;
+	(*ocean)[py][px] = nouv_case;
 }
 
 /*************************** EFFACER_CASE *****************************/
@@ -47,7 +47,7 @@ void set_contenu(t_ocean* ocean, int px, int py, t_case nouv_case) {
 /**********************************************************************/
 
 void effacer_case(t_ocean* ocean, int px, int py) {
-	(*ocean)[px][py] = { VIDE, RIEN };
+	(*ocean)[py][px] = { VIDE, RIEN };
 }
 
 /************************** GET_CASES_LIBRES **************************/
@@ -65,48 +65,48 @@ int get_cases_libres(const t_ocean ocean, int px, int py) {
 		// Gestion de chaque direction de maniere independante, ajuste la position en x (dx)
 		// et en y (dy) selon la direction a verifier
 		switch (dir) {
-			case HAUT:
-				dy--;
-				break;
+		case HAUT:
+			dy--;
+			break;
 
-			case HAUT_DR:
-				dx++;
-				dy--;
-				break;
+		case HAUT_DR:
+			dx++;
+			dy--;
+			break;
 
-			case DROITE:
-				dx++;
-				break;
+		case DROITE:
+			dx++;
+			break;
 
-			case BAS_DR:
-				dx++;
-				dy++;
-				break;
+		case BAS_DR:
+			dx++;
+			dy++;
+			break;
 
-			case BAS:
-				dy++;
-				break;
+		case BAS:
+			dy++;
+			break;
 
-			case BAS_G:
-				dx--;
-				dy++;
-				break;
+		case BAS_G:
+			dx--;
+			dy++;
+			break;
 
-			case GAUCHE:
-				dx--;
-				break;
+		case GAUCHE:
+			dx--;
+			break;
 
-			case HAUT_G:
-				dx--;
-				dy--;
-				break;
+		case HAUT_G:
+			dx--;
+			dy--;
+			break;
 		}
 		// Si la case n'est pas a l'extremite de l'ocean (hors-limites)
-		if (dx >= 0 && dx < HAUTEUR && dy >= 0 && dy < LARGEUR) {
+		if (dy >= 0 && dy < HAUTEUR) {
 			// Si le contenu de la case est libre (pas un animal, donc "VIDE")
-			if (ocean[dx][dy].contenu == VIDE) nb_cases++;	// Incrementation du compteur
+			if (ocean[dy][dx].contenu == VIDE) nb_cases++;	// Incrementation du compteur
 		}
-		
+
 
 		// Reinitialision de la position a verifier a la position originale
 		dx = px;
@@ -132,46 +132,46 @@ void get_case_voisine_alea(const t_ocean ocean, int px, int py, int* rx, int* ry
 		// Gestion de chaque direction de maniere independante, ajuste la position en x (dx)
 		// et en y (dy) selon la direction a verifier
 		switch (dir) {
-			case HAUT:
-				dy--;
-				break;
+		case HAUT:
+			dy--;
+			break;
 
-			case HAUT_DR:
-				dx++;
-				dy--;
-				break;
+		case HAUT_DR:
+			dx++;
+			dy--;
+			break;
 
-			case DROITE:
-				dx++;
-				break;
+		case DROITE:
+			dx++;
+			break;
 
-			case BAS_DR:
-				dx++;
-				dy++;
-				break;
+		case BAS_DR:
+			dx++;
+			dy++;
+			break;
 
-			case BAS:
-				dy++;
-				break;
+		case BAS:
+			dy++;
+			break;
 
-			case BAS_G:
-				dx--;
-				dy++;
-				break;
+		case BAS_G:
+			dx--;
+			dy++;
+			break;
 
-			case GAUCHE:
-				dx--;
-				break;
+		case GAUCHE:
+			dx--;
+			break;
 
-			case HAUT_G:
-				dx--;
-				dy--;
-				break;
+		case HAUT_G:
+			dx--;
+			dy--;
+			break;
 		}
 		// Si la case n'est pas hors-limites et que le contenu de la case
 		// est libre (pas un animal, donc "VIDE")
-		if (dx >= 0 && dx < HAUTEUR && dy >= 0 && dy < LARGEUR
-			&& ocean[dx][dy].contenu == VIDE) est_vide = 1;	// On change le verificateur
+		if (dy >= 0 && dy < HAUTEUR
+			&& ocean[dy][dx].contenu == VIDE) est_vide = 1;	// On change le verificateur
 
 		else {
 			dir = alea(HAUT, HAUT_G);	// On essaie une nouvelle direction
@@ -196,21 +196,21 @@ void afficher_ocean(const t_ocean ocean) {
 	int i, j,		// Compteurs pour la boucle "for"
 		contenu;	// Contenu des differentes cases
 
-	for (i = 0; i < HAUTEUR; i++) {
-		for (j = 0; j < LARGEUR; j++) {
+	for (i = 0; i < LARGEUR; i++) {
+		for (j = 0; j < HAUTEUR; j++) {
 			contenu = get_contenu(ocean, i, j);
 
 			switch (contenu) {
-				case VIDE:
-					break;
+			case VIDE:
+				break;
 
-				case POISSON:
-					afficher_char(CH_POISSON, i + DEBUT_MER, j);
-					break;
+			case POISSON:
+				afficher_char(CH_POISSON, i, j);
+				break;
 
-				case REQUIN:
-					afficher_char(CH_REQUIN, i + DEBUT_MER, j);
-					break;
+			case REQUIN:
+				afficher_char(CH_REQUIN, i, j);
+				break;
 			}
 		}
 	}

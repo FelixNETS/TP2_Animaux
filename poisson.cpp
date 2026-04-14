@@ -17,8 +17,8 @@ int verif_pos_poisson(t_liste_poissons liste_poissons,
 
 	for (int i = 0; i <= nb_poissons; i++) {
 
-		if ((x == liste_poissons.liste[i].posx) && 
-			 (y == liste_poissons.liste[i].posy))
+		if ((x == liste_poissons.liste[i].posx) &&
+			(y == liste_poissons.liste[i].posy))
 			return 0;
 	}
 
@@ -30,7 +30,7 @@ int verif_pos_poisson(t_liste_poissons liste_poissons,
 /*	PARAMS: struct liste poissons, int # du poisson					  */
 /**********************************************************************/
 
-static t_animal init_poisson(t_liste_poissons liste_poissons, 
+static t_animal init_poisson(t_liste_poissons liste_poissons,
 	int nb_poissons) {
 
 	int temp_x, temp_y, temp_age;	// storage stats temporaire pour validation
@@ -60,10 +60,13 @@ void creer_liste_poisson(t_liste_poissons* liste_poissons,
 	int nb, t_ocean ocean) {
 
 	t_animal poisson = { 0 };		// poisson buffer pour ajouter a la liste
-	
+
+	liste_poissons->taille_liste = nb;
+	liste_poissons->liste = (t_animal*)malloc(nb * sizeof(t_animal));
+
 	/* ajout poisson a la liste initiale "nb" fois */
 
-	for (int i = 0; i < nb; i++) {	
+	for (int i = 0; i < nb; i++) {
 
 		poisson = init_poisson(*liste_poissons, nb);	// init, poisson buffer
 
@@ -112,20 +115,20 @@ void deplacer_poissons(t_ocean* ocean, t_animal* poisson, int i) {
 		temp_y = poisson->posy;		// buffer pos y prend pos y du poisson	
 
 	/* verif qu'il y a des cases vides adjacentes */
-	if (get_cases_libres(*ocean, temp_x, temp_y)) {	
+	if (get_cases_libres(*ocean, temp_x, temp_y)) {
 
 		effacer_case(ocean, temp_x, temp_y);	// efface contenu ancienne case
 
-		get_case_voisine_alea(*ocean,temp_x, temp_y,
+		get_case_voisine_alea(*ocean, temp_x, temp_y,
 			&temp_x, &temp_y);		// cherche une case voisine aleatoire
 
 		/* CAS PARTICULIER l'ocean "wrap around" si on depasse la limite */
-		/* droite ou gauche on passe directement de l'autre cote         */	
+		/* droite ou gauche on passe directement de l'autre cote         */
 		if (temp_x == LARGEUR) temp_x = 0;
 		if (temp_x < 0) temp_x = LARGEUR - 1;
 
 		// ajout contenu nouvelle case
-		set_contenu(ocean, temp_x, temp_y, case_poisson);	
+		set_contenu(ocean, temp_x, temp_y, case_poisson);
 
 		poisson->posx = temp_x;		// set nouvelle pos x du poisson
 		poisson->posy = temp_y;		// set nouvelle pos y du poisson
@@ -187,7 +190,7 @@ void eliminer_poisson(t_liste_poissons* liste_poissons,
 		if (i < dernier) {
 
 			/* on le remplace par le dernier et on met le dernier a */
-			/* la place du poisson choisi dans l'ocean              */	
+			/* la place du poisson choisi dans l'ocean              */
 			liste_poissons->liste[i] = liste_poissons->liste[dernier];
 			set_contenu(ocean, dx, dy, case_poisson);
 		}
@@ -211,7 +214,7 @@ int ajout_bebe_poisson(t_liste_poissons* liste_poissons,
 	t_animal parent = liste_poissons->liste[i];	// buffer poisson parent
 
 	/* case a ajouter */
-	t_case case_poisson;						
+	t_case case_poisson;
 	case_poisson.contenu = POISSON;
 	case_poisson.numero = liste_poissons->nb_poissons;
 
@@ -220,7 +223,7 @@ int ajout_bebe_poisson(t_liste_poissons* liste_poissons,
 		parenty = parent.posy,
 		bebex, bebey,
 
-	/* generation de probabilite de fausse couche et nb de cases libres */
+		/* generation de probabilite de fausse couche et nb de cases libres */
 		fausse_couche = alea(0, 2),
 		cases_libres = get_cases_libres(*ocean, parentx, parenty),
 
@@ -231,7 +234,7 @@ int ajout_bebe_poisson(t_liste_poissons* liste_poissons,
 
 	/* si le parent fait une fausse couche ou que la population est capped */
 	/* le bebe ne nait pas (ret 0) et le nb jrs gest du poisson est reset  */
-	if ((!fausse_couche) || (j >= MAX_POISSON)) {
+	if ((!fausse_couche) || (j >= liste_poissons->taille_liste)) {
 
 		reset_gestation(&parent, -NB_JRS_GEST_POISSON);
 		return 0;
@@ -252,4 +255,18 @@ int ajout_bebe_poisson(t_liste_poissons* liste_poissons,
 	reset_gestation(&parent, -NB_JRS_GEST_POISSON);	// reset jrs gest du parent
 
 	return 1;	// retourne 1 pour indiquer accouchement succes
+}
+
+/*********************** LIBERER LISTE POISSONS ***********************/
+/*	Fonction qui libere la memoire allouee a la liste				  */
+/*	PARAMS: liste des requins										  */
+/**********************************************************************/
+
+void liberer_liste_poissons(t_liste_poissons* liste_poissons) {
+
+	free(liste_poissons->liste);		// libere memoire
+
+	liste_poissons->liste = NULL;		// reset pointeur
+
+	liste_poissons->taille_liste = 0;	// reset taille de liste
 }

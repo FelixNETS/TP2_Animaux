@@ -63,6 +63,9 @@ void creer_liste_requin(t_liste_requins* liste_requins,
 
 	t_animal requin = { 0 };		// requin buffer pour ajouter a la liste
 
+	liste_requins->taille_liste = nb;
+	liste_requins->liste = (t_animal*)malloc(nb * sizeof(t_animal));
+
 	/* ajout requin a la liste initiale "nb" fois */
 
 	for (int i = 0; i < nb; i++) {
@@ -163,7 +166,7 @@ void set_requin(t_animal* requin, int age, int energie,
 	if (posy >= 0) requin->posy = posy;
 }
 
-/************************** ELIMINIER requin *************************/
+/************************** ELIMINIER REQUIN **************************/
 /*	Fonction permet elimination d'un requin choisi de la lise		  */
 /*	PARAMS: liste des requins, grille ocean, # du requin			  */
 /**********************************************************************/
@@ -202,7 +205,7 @@ void eliminer_requin(t_liste_requins* liste_requins,
 	}
 }
 
-/************************* AJOUT BEBE requin *************************/
+/************************* AJOUT BEBE REQUIN **************************/
 /*	Fonction fait naître un nouveau requin et l'ajoute a la liste	  */
 /*	PARAMS:															  */
 /**********************************************************************/
@@ -233,7 +236,7 @@ int ajout_bebe_requin(t_liste_requins* liste_requins,
 
 	/* si le parent fait une fausse couche ou que la population est capped */
 	/* le bebe ne nait pas (ret 0) et le nb jrs gest du requin est reset  */
-	if ((!fausse_couche) || (j >= MAX_REQUIN)) {
+	if ((!fausse_couche) || (j >= liste_requins->taille_liste)) {
 
 		reset_gestation(&parent, -NB_JRS_GEST_REQUIN);
 		return 0;
@@ -254,4 +257,18 @@ int ajout_bebe_requin(t_liste_requins* liste_requins,
 	reset_gestation(&parent, -NB_JRS_GEST_REQUIN);	// reset jrs gest du parent
 
 	return 1;	// retourne 1 pour indiquer accouchement succes
+}
+
+/*********************** LIBERER LISTE REQUINS ************************/
+/*	Fonction qui libere la memoire allouee a la liste				  */
+/*	PARAMS: liste des requins										  */
+/**********************************************************************/
+
+void liberer_liste_requin(t_liste_requins* liste_requins) {
+
+	free(liste_requins->liste);			// libere memoire
+
+	liste_requins->liste = NULL;		// reset pointeur
+
+	liste_requins->taille_liste = 0;	// reset taille de liste
 }
