@@ -12,19 +12,41 @@
 #include "poisson.h"
 #include "requin.h"
 
+/************************** GESTION DE MODE ***************************/
 #define MODE_AFF 0	// Valeur de selection du mode affichage
 #define MODE_ECR 1	// Valeur de selection du mode ecriture
 
+/*********************** PARAMETRES DE DEPART *************************/
+#define NB_POISSONS	200		// Nombre de poissons de depart
+#define NB_REQUINS 40		// Nombre de requins de depart
+#define NB_ITERATIONS 3000	// Nombre maximal d'iterations
+
+
+
 void main() {
-	int mode = demander_mode();	// Demande du mode a l'utilisateur
+	int mode = demander_mode(),	// Demande du mode a l'utilisateur
+		temps = 0;				// Compteur de nombre de jours
+
+	// Initialisation des listes a vide
+	t_liste_poissons l_poissons = {};	// Liste de poissons
+	t_liste_requins l_requins = {};	// Liste de requins
+	t_ocean ocean = {};				// Grille de l'ocean
 
 	srand(time(NULL));	// Initialise les valeurs aleatoires
+
+	vider_liste_poissons
 	
+	// Si le mode ecriture est selectionne
 	if (mode == MODE_ECR) {
 
 	}
+	
+	// On genere les listes de poissons et de requins de maniere aleatoire
+	creer_liste_poisson(*l_poissons, NB_POISSONS, ocean);
+	creer_liste_requin(*l_requins, NB_REQUINS, ocean);
 
-
+	// On affiche l'ocean de depart
+	afficher_ocean(ocean);
 }
 
 
