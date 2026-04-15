@@ -82,16 +82,14 @@ void set_requin(t_animal* requin, int age, int energie,
 /*	PARAMS: liste des requins, grille ocean, # du requin			  */
 /**********************************************************************/
 
-void eliminer_requin(t_liste_requins* liste_requins,
-	t_ocean* ocean, int i);
+void eliminer_requin(t_liste_requins* liste_requins, t_ocean* ocean, int i);
 
 /************************* AJOUT BEBE REQUIN **************************/
 /*	Fonction fait naître un nouveau requin et l'ajoute a la liste	  */
 /*	PARAMS:															  */
 /**********************************************************************/
 
-int ajout_bebe_requin(t_liste_requins* liste_requins,
-	t_ocean* ocean, int i);
+int ajout_bebe_requin(t_liste_requins* liste_requins, t_ocean* ocean, int i);
 
 /*********************** LIBERER LISTE REQUINS ************************/
 /*	Fonction qui libere la memoire allouee a la liste				  */

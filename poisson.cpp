@@ -56,7 +56,7 @@ static t_animal init_poisson(t_liste_poissons liste_poissons,
 /*	PARAMS: struct liste poissons, qte poissons a generer, tab ocean  */
 /**********************************************************************/
 
-void creer_liste_poisson(t_liste_poissons* liste_poissons,
+void creer_liste_poissons(t_liste_poissons* liste_poissons,
 	int nb, t_ocean ocean) {
 
 	t_animal poisson = { 0 };		// poisson buffer pour ajouter a la liste
@@ -105,7 +105,7 @@ int get_nb_poissons(t_liste_poissons liste_poissons) {
 /*	PARAMS: struct tableau ocean, struct liste poissons, # du poisson */
 /**********************************************************************/
 
-void deplacer_poissons(t_ocean* ocean, t_animal* poisson, int i) {
+void deplacer_poisson(t_ocean* ocean, t_animal* poisson, int i) {
 
 	t_case case_poisson;			// case poisson a ajouter a l'ocean
 	case_poisson.contenu = POISSON; // assigne val POISSON (1) a la case
@@ -259,7 +259,7 @@ int ajout_bebe_poisson(t_liste_poissons* liste_poissons,
 
 /*********************** LIBERER LISTE POISSONS ***********************/
 /*	Fonction qui libere la memoire allouee a la liste				  */
-/*	PARAMS: liste des requins										  */
+/*	PARAMS: liste des poissons										  */
 /**********************************************************************/
 
 void liberer_liste_poissons(t_liste_poissons* liste_poissons) {

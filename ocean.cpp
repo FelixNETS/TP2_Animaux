@@ -101,6 +101,7 @@ int get_cases_libres(const t_ocean ocean, int px, int py) {
 			dy--;
 			break;
 		}
+
 		// Si la case n'est pas a l'extremite de l'ocean (hors-limites)
 		if (dy >= 0 && dy < HAUTEUR) {
 			// Si le contenu de la case est libre (pas un animal, donc "VIDE")
@@ -170,8 +171,9 @@ void get_case_voisine_alea(const t_ocean ocean, int px, int py, int* rx, int* ry
 		}
 		// Si la case n'est pas hors-limites et que le contenu de la case
 		// est libre (pas un animal, donc "VIDE")
-		if (dy >= 0 && dy < HAUTEUR
-			&& ocean[dy][dx].contenu == VIDE) est_vide = 1;	// On change le verificateur
+		if (dy >= 0 && dy < HAUTEUR && ocean[dy][dx].contenu == VIDE) {
+			est_vide = 1;	// On change le verificateur
+		}
 
 		else {
 			dir = alea(HAUT, HAUT_G);	// On essaie une nouvelle direction

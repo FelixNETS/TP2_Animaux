@@ -37,7 +37,7 @@ typedef struct {
 /*	PARAMS: struct liste poissons, qte poissons a generer, tab ocean  */
 /**********************************************************************/
 
-void creer_liste_poisson(t_liste_poissons* liste_poissons,
+void creer_liste_poissons(t_liste_poissons* liste_poissons,
 	int nb, t_ocean ocean);
 
 /************************* VIDER LISTE POISSON ************************/
@@ -59,7 +59,7 @@ int get_nb_poissons(t_liste_poissons liste_poissons);
 /*	PARAMS: struct tableau ocean, struct liste poissons, # du poisson */
 /**********************************************************************/
 
-void deplacer_poissons(t_ocean* ocean, t_animal* poisson, int i);
+void deplacer_poisson(t_ocean* ocean, t_animal* poisson, int i);
 
 /**************************** GET POISSON *****************************/
 /*	Fonction qui retourne les stats d'un poisson choisi				  */

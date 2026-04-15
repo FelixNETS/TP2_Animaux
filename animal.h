@@ -6,6 +6,12 @@
 #if !defined (LIB_ANIMAL)
 #define LIB_ANIMAL 1
 
+#define MORT 1				// Valeur pour un animal mort
+#define VIVANT 0			// Valeur pour un animal vivant
+
+#define PUBERE 1		// Valeur pour la puberte atteinte
+#define PRE_PUBERE 0		// Valeur pour la puberte non-atteinte
+
 /* Type-structure pour un animal */
 typedef struct{
   int   posx, posy;     //sa position
