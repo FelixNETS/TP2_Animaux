@@ -33,7 +33,7 @@ int verif_pos_requin(t_liste_requins liste_requins,
 static t_animal init_requin(t_liste_requins liste_requins,
 	int nb_requins) {
 
-	int temp_x, temp_y, temp_age, temp_dig;	// storage stats temp pour validation
+	int temp_x, temp_y, temp_age, energie, gest;	// storage stats temp pour validation
 	t_animal requin = { };					// requin buffer pour add a la liste si ok
 
 	do {
@@ -45,10 +45,13 @@ static t_animal init_requin(t_liste_requins liste_requins,
 
 	temp_age = alea(0, MAX_AGE_REQUIN);	// assigne age alea au requin
 
-	temp_dig = alea(JRS_DIGESTION, JRS_DIGESTION * 4);	// assigne dig alea
+	energie = alea(JRS_DIGESTION, JRS_DIGESTION * 4);	// assigne dig alea
+
+	if (temp_age >= NB_JRS_PUB_REQUIN) gest = alea(1, NB_JRS_GEST_REQUIN);
+	else gest = 0;
 
 	init_animal(&requin, temp_x, temp_y, temp_age,
-		temp_dig, 0);			// les stats sont ajout. au requin buffer
+		energie, gest);			// les stats sont ajout. au requin buffer
 
 	return requin;							// retour du requin buffer
 }
@@ -63,8 +66,8 @@ void creer_liste_requins(t_liste_requins* liste_requins,
 
 	t_animal requin = { 0 };		// requin buffer pour ajouter a la liste
 
-	liste_requins->taille_liste = 500;
-	liste_requins->liste = (t_animal*)malloc(500 * sizeof(t_animal));
+	liste_requins->taille_liste = 80;	// TEMPORAIRE***
+	liste_requins->liste = (t_animal*)malloc(80 * sizeof(t_animal));
 
 	/* ajout requin a la liste initiale "nb" fois */
 
@@ -197,8 +200,6 @@ void eliminer_requin(t_liste_requins* liste_requins,
 			set_contenu(ocean, dx, dy, case_requin);
 		}
 
-		liste_requins->liste[dernier] = { 0 };	// elimine le dernier requin
-
 		effacer_case(ocean, ix, iy);	// vide la case du requin choisi
 
 		liste_requins->nb_requins--;	// decr la qte de requins dand la liste
@@ -225,8 +226,6 @@ int ajout_bebe_requin(t_liste_requins* liste_requins,
 		parenty = parent.posy,
 		bebex, bebey,
 
-		/* generation de probabilite de fausse couche et nb de cases libres */
-		fausse_couche = alea(0, 2),
 		cases_libres = get_cases_libres(*ocean, parentx, parenty),
 
 		j = liste_requins->nb_requins;
@@ -236,9 +235,10 @@ int ajout_bebe_requin(t_liste_requins* liste_requins,
 
 	/* si le parent fait une fausse couche ou que la population est capped */
 	/* le bebe ne nait pas (ret 0) et le nb jrs gest du requin est reset  */
-	if ((!fausse_couche) || (j >= liste_requins->taille_liste)) {
+	if (j >= liste_requins->taille_liste) {
 
 		reset_gestation(&parent, -NB_JRS_GEST_REQUIN);
+		liste_requins->liste[i] = parent;
 		return 0;
 	}
 
@@ -255,6 +255,7 @@ int ajout_bebe_requin(t_liste_requins* liste_requins,
 		0, -1, -1);
 
 	reset_gestation(&parent, -NB_JRS_GEST_REQUIN);	// reset jrs gest du parent
+	liste_requins->liste[i] = parent;
 
 	return 1;	// retourne 1 pour indiquer accouchement succes
 }

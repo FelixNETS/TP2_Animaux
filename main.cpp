@@ -63,10 +63,12 @@ void main() {
 	vider_liste_poissons(&l_poissons);
 	vider_liste_requins(&l_requins);
 
+	FILE* stats = NULL;
 	
 	// Si le mode ecriture est selectionne
-	//if (mode == MODE_ECR) {
-	//}
+	if (mode == MODE_ECR) {
+		stats = fopen("C:\\Users\\filna\\OneDrive\\Desktop\\stats6.txt", "w");
+	}
 
 	// On genere les listes de poissons et de requins de maniere aleatoire
 	creer_liste_poissons(&l_poissons, NB_POISSONS, ocean);
@@ -81,7 +83,6 @@ void main() {
 
 	// Pour chaque iteration
 	for (temps; temps <= NB_ITERATIONS; temps++) {
-		temps++;	// On augmente le temps (l'iteration)
 
 		// Pour chaque poisson de la liste de poissons
 		for (p = 0; p < nb_poissons; p++) {
@@ -90,12 +91,16 @@ void main() {
 			// Verifie si un requin peut le manger
 			statut_poisson = get_requins_voisins(ocean, px_poisson,
 							 py_poisson, &l_requins);
-			// Verifie si le poisson est mort de vieillesse
-			statut_poisson = est_mort(&l_poissons.liste[p], MAX_AGE_POISSON);
 
+			// Verifie si le poisson est mort de vieillesse si pas mange
+			if (!statut_poisson) {
+				statut_poisson = est_mort(&l_poissons.liste[p], MAX_AGE_POISSON);
+			}
 
 			// Si le poisson est mort, on l'elimine
-			if (statut_poisson == MORT) eliminer_poisson(&l_poissons, &ocean, p);
+			if (statut_poisson == MORT) {
+				eliminer_poisson(&l_poissons, &ocean, p);
+			}
 		}
 
 		// Pour chaque requin de la liste de requins
@@ -106,7 +111,9 @@ void main() {
 			statut_requin = est_mort(&l_requins.liste[r], MAX_AGE_REQUIN);
 
 			// Si le requin est mort, on l'elimine
-			if (statut_requin == MORT) eliminer_requin(&l_requins, &ocean, r);
+			if (statut_requin == MORT) {
+				eliminer_requin(&l_requins, &ocean, r);
+			}
 		}
 
 		// On obtient le nouveau nombre de requins et de poissons
@@ -126,7 +133,7 @@ void main() {
 				// On reinitialise le nombre de jours de gestation a -1 puisqu'il vient de 
 				// procreer et on va l'augmenter de +1 par la suite. Le nombre de jours doit 
 				// donc etre a 0.
-				reset_gestation(&l_requins.liste[r], -1);
+				// reset_gestation(&l_requins.liste[r], -1);
 			}
 
 			// Sinon on le deplace
@@ -151,7 +158,7 @@ void main() {
 				// On reinitialise le nombre de jours de gestation a -1 puisqu'il vient de 
 				// procreer et on va l'augmenter de +1 par la suite. Le nombre de jours doit 
 				// donc etre a 0.
-				reset_gestation(&l_poissons.liste[p], -1);
+				// reset_gestation(&l_poissons.liste[p], -1);
 				dec_energie(&l_poissons.liste[p]);
 			}
 
@@ -162,12 +169,29 @@ void main() {
 			inc_age(&l_poissons.liste[p], NB_JRS_PUB_POISSON);
 		}
 
-		afficher_etat(temps, nb_poissons, nb_requins);
-		afficher_ocean(ocean);
-		delai_ecran(50);
+		// On update le nouveau nombre de requins et de poissons
+		nb_poissons = get_nb_poissons(l_poissons);
+		nb_requins = get_nb_requins(l_requins);
+
+		if (mode == MODE_ECR) {
+			for (r = 0; r < nb_requins; r++) {
+				fprintf(stats, "%d\t %d\t %d\t %d\t %d\n", temps, r, l_requins.liste[r].age, l_requins.liste[r].energie_sante, l_requins.liste[r].jrs_gest);
+			}
+		}
+		else{
+			afficher_etat(temps, nb_poissons, nb_requins);
+			afficher_ocean(ocean);
+			delai_ecran(50);
+		}
 
 	}
+
+	liberer_liste_poissons(&l_poissons);
+	liberer_liste_requin(&l_requins);
 	
+	if (mode == MODE_ECR) {
+		fclose(stats);
+	}
 }
 
 /**********************************************************************/

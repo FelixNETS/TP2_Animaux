@@ -52,7 +52,7 @@ void set_position(t_animal* animal, int px, int py) {
 int  puberte_atteinte(const t_animal* animal, int puberte, int gestation) {
 	// Si la puberte l'age de puberte est atteinte et que la periode de
 	// gestation est completee, retourne 1
-	if (animal->age >= puberte && animal->jrs_gest == gestation) return PUBERE;
+	if (animal->age >= puberte && animal->jrs_gest >= gestation) return PUBERE;
 
 	// Si les deux conditions ne sont pas atteintes, retourne 0
 	else return PRE_PUBERE;
@@ -107,7 +107,7 @@ int  get_energie(t_animal* animal) {
 
 int  est_mort(const t_animal* animal, int age_max) {
 	// Si l'animal n'a plus d'energie ou qu'il a atteint sa fin de vie, retourne 1 (mort)
-	if (animal->energie_sante == 0 || animal->age == age_max) return MORT;
+	if (animal->energie_sante <= 0 || animal->age == age_max) return MORT;
 
 	// Si aucune condition n'est atteinte, retourne 0 (vivant)
 	else return VIVANT;

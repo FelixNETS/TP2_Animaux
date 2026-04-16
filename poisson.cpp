@@ -195,8 +195,6 @@ void eliminer_poisson(t_liste_poissons* liste_poissons,
 			set_contenu(ocean, dx, dy, case_poisson);
 		}
 
-		liste_poissons->liste[dernier] = { 0 };	// elimine le dernier poisson
-
 		effacer_case(ocean, ix, iy);	// vide la case du poisson choisi
 
 		liste_poissons->nb_poissons--;	// decr la qte de poissons dand la liste
@@ -237,6 +235,7 @@ int ajout_bebe_poisson(t_liste_poissons* liste_poissons,
 	if ((!fausse_couche) || (j >= liste_poissons->taille_liste)) {
 
 		reset_gestation(&parent, -NB_JRS_GEST_POISSON);
+		liste_poissons->liste[i] = parent;
 		return 0;
 	}
 
@@ -253,6 +252,7 @@ int ajout_bebe_poisson(t_liste_poissons* liste_poissons,
 		0, -1, -1);
 
 	reset_gestation(&parent, -NB_JRS_GEST_POISSON);	// reset jrs gest du parent
+	liste_poissons->liste[i] = parent;
 
 	return 1;	// retourne 1 pour indiquer accouchement succes
 }
