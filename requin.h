@@ -37,7 +37,7 @@ typedef struct {
 /*	PARAMS: struct liste requins, qte requins a generer, tab ocean  */
 /**********************************************************************/
 
-void creer_liste_requin(t_liste_requins* liste_requins,
+void creer_liste_requins(t_liste_requins* liste_requins,
 	int nb, t_ocean ocean);
 
 /************************* VIDER LISTE REQUIN *************************/
@@ -89,7 +89,8 @@ void eliminer_requin(t_liste_requins* liste_requins, t_ocean* ocean, int i);
 /*	PARAMS:															  */
 /**********************************************************************/
 
-int ajout_bebe_requin(t_liste_requins* liste_requins, t_ocean* ocean, int i);
+int ajout_bebe_requin(t_liste_requins* liste_requins,
+	t_ocean* ocean, int i);
 
 /*********************** LIBERER LISTE REQUINS ************************/
 /*	Fonction qui libere la memoire allouee a la liste				  */

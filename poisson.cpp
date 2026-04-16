@@ -61,8 +61,8 @@ void creer_liste_poissons(t_liste_poissons* liste_poissons,
 
 	t_animal poisson = { 0 };		// poisson buffer pour ajouter a la liste
 
-	liste_poissons->taille_liste = nb;
-	liste_poissons->liste = (t_animal*)malloc(nb * sizeof(t_animal));
+	liste_poissons->taille_liste = 500;		// TEMPORAIRE***
+	liste_poissons->liste = (t_animal*)malloc(500 * sizeof(t_animal));
 
 	/* ajout poisson a la liste initiale "nb" fois */
 
@@ -259,6 +259,7 @@ int ajout_bebe_poisson(t_liste_poissons* liste_poissons,
 
 /*********************** LIBERER LISTE POISSONS ***********************/
 /*	Fonction qui libere la memoire allouee a la liste				  */
+/*	PARAMS: liste des requins										  */
 /*	PARAMS: liste des poissons										  */
 /**********************************************************************/
 

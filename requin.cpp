@@ -58,13 +58,13 @@ static t_animal init_requin(t_liste_requins liste_requins,
 /*	PARAMS: struct liste requins, qte requins a generer, tab ocean    */
 /**********************************************************************/
 
-void creer_liste_requin(t_liste_requins* liste_requins,
+void creer_liste_requins(t_liste_requins* liste_requins,
 	int nb, t_ocean ocean) {
 
 	t_animal requin = { 0 };		// requin buffer pour ajouter a la liste
 
-	liste_requins->taille_liste = nb;
-	liste_requins->liste = (t_animal*)malloc(nb * sizeof(t_animal));
+	liste_requins->taille_liste = 500;
+	liste_requins->liste = (t_animal*)malloc(500 * sizeof(t_animal));
 
 	/* ajout requin a la liste initiale "nb" fois */
 

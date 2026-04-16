@@ -171,7 +171,11 @@ void get_case_voisine_alea(const t_ocean ocean, int px, int py, int* rx, int* ry
 		}
 		// Si la case n'est pas hors-limites et que le contenu de la case
 		// est libre (pas un animal, donc "VIDE")
+		if (dy >= 0 && dy < HAUTEUR
+
+			&& ocean[dy][dx].contenu == VIDE) est_vide = 1;	// On change le verificateur
 		if (dy >= 0 && dy < HAUTEUR && ocean[dy][dx].contenu == VIDE) {
+
 			est_vide = 1;	// On change le verificateur
 		}
 
@@ -198,8 +202,11 @@ void afficher_ocean(const t_ocean ocean) {
 	int i, j,		// Compteurs pour la boucle "for"
 		contenu;	// Contenu des differentes cases
 
-	for (i = 0; i < LARGEUR; i++) {
-		for (j = 0; j < HAUTEUR; j++) {
+	for (j = 0; j < HAUTEUR; j++) {
+
+		effacer_ligne(j);
+
+		for (i = 0; i < LARGEUR; i++) {
 			contenu = get_contenu(ocean, i, j);
 
 			switch (contenu) {

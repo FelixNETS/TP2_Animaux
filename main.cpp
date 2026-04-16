@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <conio.h>
+#include <ctype.h>
 
 #include "poisson.h"
 #include "requin.h"
@@ -30,12 +31,13 @@
 // programme. Elle ne recoit aucun parametre.						  //
 int demander_mode();
 
-void get_requins_voisins(const t_ocean ocean, int px, int py, t_liste_requins* liste_requins);
+int get_requins_voisins(const t_ocean ocean, int px, int py, t_liste_requins* liste_requins);
 /**********************************************************************/
 /*                                MAIN                                */
 /**********************************************************************/
 
 void main() {
+
 	int mode = demander_mode(),	// Demande du mode a l'utilisateur
 		temps = 0,				// Compteur de nombre de jours
 		p,						// Compteur du nombre de poissons
@@ -49,7 +51,7 @@ void main() {
 		statut_poisson,			// Statut d'un poisson (Mange/Vivant)
 		statut_requin,			// Statut d'un requin (Mange/Vivant)
 		pub_requin,				// Valeur pour le statut de la puberte d'un requin
-		pub_poisson,			// Valeur pour le statut de la puberte d'un poisson
+		pub_poisson;			// Valeur pour le statut de la puberte d'un poisson
 
 	// Initialisation des listes a vide
 	t_liste_poissons l_poissons = {};	// Liste de poissons
@@ -64,10 +66,11 @@ void main() {
 	
 	// Si le mode ecriture est selectionne
 	//if (mode == MODE_ECR) {
-	
+	//}
+
 	// On genere les listes de poissons et de requins de maniere aleatoire
-	creer_liste_poisson(&l_poissons, NB_POISSONS, ocean);
-	creer_liste_requin(&l_requins, NB_REQUINS, ocean);
+	creer_liste_poissons(&l_poissons, NB_POISSONS, ocean);
+	creer_liste_requins(&l_requins, NB_REQUINS, ocean);
 
 	// On obtient le nombre de requins et de poissons
 	nb_poissons = get_nb_poissons(l_poissons);
@@ -81,14 +84,14 @@ void main() {
 		temps++;	// On augmente le temps (l'iteration)
 
 		// Pour chaque poisson de la liste de poissons
-		for (p = 0; p < nb_poissons, p++) {
+		for (p = 0; p < nb_poissons; p++) {
 			// Obtention de la position du poisson
-			get_position(&l_poissons[p], &px_poisson, &py_poisson);
+			get_position(&l_poissons.liste[p], &px_poisson, &py_poisson);
 			// Verifie si un requin peut le manger
 			statut_poisson = get_requins_voisins(ocean, px_poisson,
 							 py_poisson, &l_requins);
 			// Verifie si le poisson est mort de vieillesse
-			statut_poisson = est_mort(&l_poissons[p], MAX_AGE_POISSON);
+			statut_poisson = est_mort(&l_poissons.liste[p], MAX_AGE_POISSON);
 
 
 			// Si le poisson est mort, on l'elimine
@@ -96,11 +99,11 @@ void main() {
 		}
 
 		// Pour chaque requin de la liste de requins
-		for (r = 0; r < nb_requins, r++) {
+		for (r = 0; r < nb_requins; r++) {
 			// Obtention de la position du requin
-			get_position(&l_requins[r], &px_requin, &py_requin);
+			get_position(&l_requins.liste[r], &px_requin, &py_requin);
 			// Verifie si le poisson est mort de vieillesse ou de faim
-			statut_requin = est_mort(&l_requins[r], MAX_AGE_REQUIN);
+			statut_requin = est_mort(&l_requins.liste[r], MAX_AGE_REQUIN);
 
 			// Si le requin est mort, on l'elimine
 			if (statut_requin == MORT) eliminer_requin(&l_requins, &ocean, r);
@@ -111,9 +114,9 @@ void main() {
 		nb_requins = get_nb_requins(l_requins);
 
 		// Pour chaque requin restant
-		for (r = 0; r < nb_requins, r++) {
+		for (r = 0; r < nb_requins; r++) {
 			// On verifie si le requin a atteint la puberte
-			pub_requin = puberte_atteinte(&l_requins[r], NB_JRS_PUB_REQUIN,
+			pub_requin = puberte_atteinte(&l_requins.liste[r], NB_JRS_PUB_REQUIN,
 						 NB_JRS_GEST_REQUIN);
 
 			// Si le requin a atteint la puberte
@@ -123,22 +126,22 @@ void main() {
 				// On reinitialise le nombre de jours de gestation a -1 puisqu'il vient de 
 				// procreer et on va l'augmenter de +1 par la suite. Le nombre de jours doit 
 				// donc etre a 0.
-				reset_gestation(&l_requins[r], -1);
+				reset_gestation(&l_requins.liste[r], -1);
 			}
 
 			// Sinon on le deplace
-			else deplacer_requins(&ocean, &l_requins[r], r);
+			else deplacer_requins(&ocean, &l_requins.liste[r], r);
 
 			// On augmente son age et son nombre de jours de gestation si possible
-			inc_age(&l_requins, NB_JRS_PUB_REQUIN);
+			inc_age(&l_requins.liste[r], NB_JRS_PUB_REQUIN);
 			// On decremente son niveau d'energie
-			dec_energie(&l_requins[r]);
+			dec_energie(&l_requins.liste[r]);
 		}
 
 		// Pour chaque poisson restant
-		for (p = 0; p < nb_poissons, p++) {
+		for (p = 0; p < nb_poissons; p++) {
 			// On verifie si le poisson a atteint la puberte
-			pub_poisson = puberte_atteinte(&l_poissons[p], NB_JRS_PUB_POISSON,
+			pub_poisson = puberte_atteinte(&l_poissons.liste[p], NB_JRS_PUB_POISSON,
 						  NB_JRS_GEST_POISSON);
 
 			// Si le poisson a atteint la puberte
@@ -148,20 +151,20 @@ void main() {
 				// On reinitialise le nombre de jours de gestation a -1 puisqu'il vient de 
 				// procreer et on va l'augmenter de +1 par la suite. Le nombre de jours doit 
 				// donc etre a 0.
-				reset_gestation(&l_poissons[p], -1);
-				dec_energie(&l_poisson[p]);
+				reset_gestation(&l_poissons.liste[p], -1);
+				dec_energie(&l_poissons.liste[p]);
 			}
 
 			// Sinon on le deplace
-			else deplacer_poisson(&ocean, &l_poisson[p], p);
+			else deplacer_poisson(&ocean, &l_poissons.liste[p], p);
 
 			// On augmente son age et son nombre de jours de gestation si possible
-			inc_age(&l_poissons, NB_JRS_PUB_POISSON);
+			inc_age(&l_poissons.liste[p], NB_JRS_PUB_POISSON);
 		}
 
 		afficher_etat(temps, nb_poissons, nb_requins);
 		afficher_ocean(ocean);
-		delai_ecran(250);
+		delai_ecran(50);
 
 	}
 	
@@ -181,37 +184,36 @@ int demander_mode() {
 	do {
 		// Demande du mode a l'utilisateur
 		printf("Souhaitez vous demarrer la simulation en mode affichage? (O/N) ");
-		reponse = _getch();	// Attente de l'entree d'une touche par l'utilisateur (o/O/n/N)
+		reponse = tolower(_getch());	// Attente de l'entree d'une touche par l'utilisateur (o/O/n/N)
 
 		// Si la reponse n'est pas o/O/n/N
-		if (reponse != 'o' && reponse != 'O' && reponse != 'n' && reponse != 'N') {
+		if (reponse != 'o' && reponse != 'n') {
 			printf("Reponse invalide! Vous devez entrer O (oui) ou N (non)");
 			delai_ecran(1500);	// Delai pour permettre la lecture du message d'erreur
 		}
 
-	} while (reponse != 'o' && reponse != 'O' && reponse != 'n' && reponse != 'N')
+	} while (reponse != 'o' && reponse != 'n');
 	
 	// Si la reponse est oui, on assigne le mode affichage (0)
-	if (reponse == 'o' || reponse == 'O') return MODE_AFF;
+	if (reponse == 'o') return MODE_AFF;
 
 	// Si la reponse est non, on assigne le mode ecriture (1)
-	else if (reponse == 'n' || reponse == 'N') return MODE_ECR;
+	else if (reponse == 'n') return MODE_ECR;
 
 }
 
 /************************** DEMANDER_MODE *****************************/
 /* Demande le mode de fonctionnement a l'utilisateur.                 */
 /**********************************************************************/
-void get_requins_voisins(const t_ocean ocean, int px, int py, t_liste_requins* liste_requins) {
+int get_requins_voisins(const t_ocean ocean, int px, int py, t_liste_requins* liste_requins) {
 	int dir = alea(HAUT, HAUT_G),	// Direction aleatoire a verifier
 		dx = px,					// Case a verifier en x
 		dy = py,					// Case a verifier en y
-		est_vide = 0,				// Verificateur de case vide (0: non-vide, 1: vide)
 		num_requin;
 
 
 	// Boucle qui verifie chaque direction possible
-	while (!est_vide) {
+	for (dir = HAUT; dir <= HAUT_G; dir++) {
 		// Gestion de chaque direction de maniere independante, ajuste la position en x (dx)
 		// et en y (dy) selon la direction a verifier
 		switch (dir) {
@@ -256,7 +258,7 @@ void get_requins_voisins(const t_ocean ocean, int px, int py, t_liste_requins* l
 		if (dy >= 0 && dy < HAUTEUR && ocean[dy][dx].contenu == REQUIN) {
 			num_requin = ocean[dy][dx].numero;	// On obtient le numero du requin
 			// On incremente l'energie du rquin
-			ajout_energie(&liste_requin[num_requin], JRS_DIGESTION);
+			ajout_energie(&liste_requins->liste[num_requin], JRS_DIGESTION);
 			return MORT;	// On retourne que le poisson est mort
 		}
 	}

@@ -3,6 +3,7 @@
 /* Conception : Jean-Christophe Latreille                             */
 /**********************************************************************/
 #include"animal.h"
+#include<stdlib.h>
 
 /************************** INIT_ANIMAL *******************************/
 /* Initialisation d'un animal                                         */
@@ -11,14 +12,14 @@
 void init_animal(t_animal* animal, int px, int py, int age, int energie, int gest) {
 	if (animal == NULL)		// Verification de la validite du pointeur
 		return;
-	
+
 	// Assignation de la position de l'animal
 	animal->posx = px;
 	animal->posy = py;
 
 	// Assignation de l'age de l'animal
 	animal->age = age;
-	
+
 	// Assignation du niveau d'energie de l'animal
 	animal->energie_sante = energie;
 
