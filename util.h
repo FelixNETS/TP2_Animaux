@@ -29,14 +29,14 @@ void afficher_etat(int iter, int nb_poissons, int nb_requins);
 /* Reçoit: numéro d'itération, nombre de poissons, nombre de requins.
    Va afficher ces valeurs au haut de la grille de la mer.  */
 
-void message(const char *mess);
+void message(const char* mess);
 /* Affiche un message texte a la 4ieme ligne de la console texte. */
 
 void effacer_ligne(int y);
 /* Efface le contenu de la ligne-écran "y". */
 
 void afficher_char(char ch, int x, int y);
-/* Affichera 'ch', qui est soit CH_POISSON ou CH_REQUIN, à la position (y, x). 
+/* Affichera 'ch', qui est soit CH_POISSON ou CH_REQUIN, à la position (y, x).
    Le caractère CH_REQUIN sera affiché en rouge. */
 
 void delai_ecran(int msec);

@@ -38,7 +38,7 @@ typedef struct {
 /**********************************************************************/
 
 void creer_liste_poissons(t_liste_poissons* liste_poissons,
-	int nb, t_ocean ocean);
+	int nb, t_ocean ocean, int max);
 
 /************************* VIDER LISTE POISSON ************************/
 /*	Fonction vider la liste des poissons							  */

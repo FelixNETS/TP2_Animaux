@@ -53,7 +53,7 @@ static t_animal init_requin(t_liste_requins liste_requins,
 	init_animal(&requin, temp_x, temp_y, temp_age,
 		energie, gest);			// les stats sont ajout. au requin buffer
 
-	return requin;							// retour du requin buffer
+	return requin;				// retour du requin buffer
 }
 
 /************************* CREER LISTE REQUIN *************************/
@@ -62,12 +62,12 @@ static t_animal init_requin(t_liste_requins liste_requins,
 /**********************************************************************/
 
 void creer_liste_requins(t_liste_requins* liste_requins,
-	int nb, t_ocean ocean) {
+	int nb, t_ocean ocean, int max) {
 
 	t_animal requin = { 0 };		// requin buffer pour ajouter a la liste
 
-	liste_requins->taille_liste = 80;	// TEMPORAIRE***
-	liste_requins->liste = (t_animal*)malloc(80 * sizeof(t_animal));
+	liste_requins->taille_liste = max;		// alloc memoire max requise
+	liste_requins->liste = (t_animal*)malloc(max * sizeof(t_animal));
 
 	/* ajout requin a la liste initiale "nb" fois */
 
@@ -253,6 +253,8 @@ int ajout_bebe_requin(t_liste_requins* liste_requins,
 	/* set energie du bebe a energie init et son age et jours gest a 0 */
 	set_requin(&liste_requins->liste[j], 0, 3 * JRS_DIGESTION,
 		0, -1, -1);
+
+	set_contenu(ocean, bebex, bebey, case_requin);
 
 	reset_gestation(&parent, -NB_JRS_GEST_REQUIN);	// reset jrs gest du parent
 	liste_requins->liste[i] = parent;

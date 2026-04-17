@@ -57,12 +57,12 @@ static t_animal init_poisson(t_liste_poissons liste_poissons,
 /**********************************************************************/
 
 void creer_liste_poissons(t_liste_poissons* liste_poissons,
-	int nb, t_ocean ocean) {
+	int nb, t_ocean ocean, int max) {
 
 	t_animal poisson = { 0 };		// poisson buffer pour ajouter a la liste
 
-	liste_poissons->taille_liste = 500;		// TEMPORAIRE***
-	liste_poissons->liste = (t_animal*)malloc(500 * sizeof(t_animal));
+	liste_poissons->taille_liste = max;		// alloc memoire maximale requise
+	liste_poissons->liste = (t_animal*)malloc(max * sizeof(t_animal));
 
 	/* ajout poisson a la liste initiale "nb" fois */
 
@@ -250,6 +250,8 @@ int ajout_bebe_poisson(t_liste_poissons* liste_poissons,
 	/* set energie du bebe a energie init et son age et jours gest a 0 */
 	set_poisson(&liste_poissons->liste[j], 0, ENERGIE_INIT_POISSON,
 		0, -1, -1);
+
+	set_contenu(ocean, bebex, bebey, case_poisson);
 
 	reset_gestation(&parent, -NB_JRS_GEST_POISSON);	// reset jrs gest du parent
 	liste_poissons->liste[i] = parent;

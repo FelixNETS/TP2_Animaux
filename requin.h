@@ -38,7 +38,7 @@ typedef struct {
 /**********************************************************************/
 
 void creer_liste_requins(t_liste_requins* liste_requins,
-	int nb, t_ocean ocean);
+	int nb, t_ocean ocean, int max);
 
 /************************* VIDER LISTE REQUIN *************************/
 /*	Fonction vider la liste des requins							  */
