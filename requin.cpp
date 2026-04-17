@@ -208,7 +208,9 @@ void eliminer_requin(t_liste_requins* liste_requins,
 
 /************************* AJOUT BEBE REQUIN **************************/
 /*	Fonction fait naître un nouveau requin et l'ajoute a la liste	  */
-/*	PARAMS:															  */
+/*	PARAMS: liste des requins, grille ocean, # du requin parent       */
+/*	RETOUR: 1 si la naissance a reussi, 0 sinon (pas de place ou      */
+/*	        population maximale atteinte)                              */
 /**********************************************************************/
 
 int ajout_bebe_requin(t_liste_requins* liste_requins,

@@ -1,6 +1,6 @@
 /**********************************************************************/
 /* POISSON.CPP                                                        */
-/* Conception : Félix Nadeau				                          */
+/* Conception : Fï¿½lix Nadeau				                          */
 /**********************************************************************/
 #include "poisson.h"
 
@@ -101,7 +101,7 @@ int get_nb_poissons(t_liste_poissons liste_poissons) {
 }
 
 /************************* DEPLACER POISSONS **************************/
-/*	Fonction qui déplace un poisson d'un case voisine				  */
+/*	Fonction qui dï¿½place un poisson d'un case voisine				  */
 /*	PARAMS: struct tableau ocean, struct liste poissons, # du poisson */
 /**********************************************************************/
 
@@ -147,7 +147,7 @@ static t_animal get_poisson(t_liste_poissons liste_poissons, int i) {
 
 /**************************** SET POISSON *****************************/
 /*	Fonction qui perment de set les stats d'un poisson choisi		  */
-/*	PARAMS: poisson à modif, stats (age, energie, gestation, pos)	  */
+/*	PARAMS: poisson ï¿½ modif, stats (age, energie, gestation, pos)	  */
 /*	Inscrire -1 dans les champs qui ne sont pas a modifier			  */
 /**********************************************************************/
 
@@ -202,8 +202,10 @@ void eliminer_poisson(t_liste_poissons* liste_poissons,
 }
 
 /************************* AJOUT BEBE POISSON *************************/
-/*	Fonction fait naître un nouveau poisson et l'ajoute a la liste	  */
-/*	PARAMS:															  */
+/*	Fonction fait naÃ®tre un nouveau poisson et l'ajoute a la liste	  */
+/*	PARAMS: liste des poissons, grille ocean, # du poisson parent     */
+/*	RETOUR: 1 si la naissance a reussi, 0 sinon (pas de place,        */
+/*	        fausse couche ou population maximale atteinte)             */
 /**********************************************************************/
 
 int ajout_bebe_poisson(t_liste_poissons* liste_poissons,
@@ -261,7 +263,6 @@ int ajout_bebe_poisson(t_liste_poissons* liste_poissons,
 
 /*********************** LIBERER LISTE POISSONS ***********************/
 /*	Fonction qui libere la memoire allouee a la liste				  */
-/*	PARAMS: liste des requins										  */
 /*	PARAMS: liste des poissons										  */
 /**********************************************************************/
 

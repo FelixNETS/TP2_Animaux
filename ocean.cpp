@@ -6,6 +6,7 @@
 
 /**************************** VIDER_OCEAN *****************************/
 /* Vide l'ocean de tout son contenu                                   */
+/* PARAM: ocean - pointeur vers la grille de l'ocean a vider          */
 /**********************************************************************/
 
 void vider_ocean(t_ocean* ocean) {
@@ -20,6 +21,9 @@ void vider_ocean(t_ocean* ocean) {
 
 /**************************** GET_CONTENU *****************************/
 /* Obtient le contenu d'une case a une position donnee                */
+/* PARAM: ocean - grille de l'ocean (lecture seule)                   */
+/*        px, py - coordonnees de la case a lire                      */
+/* RETOUR: le contenu de la case (VIDE, POISSON ou REQUIN)            */
 /**********************************************************************/
 
 t_contenu get_contenu(const t_ocean ocean, int px, int py) {
@@ -28,6 +32,9 @@ t_contenu get_contenu(const t_ocean ocean, int px, int py) {
 
 /***************************** GET_NUMERO *****************************/
 /* Obtient le numero d'un animal a une position donnee                */
+/* PARAM: ocean - grille de l'ocean (lecture seule)                   */
+/*        px, py - coordonnees de la case a lire                      */
+/* RETOUR: le numero de l'animal present, ou RIEN (-1) si case vide   */
 /**********************************************************************/
 
 int get_numero(const t_ocean ocean, int px, int py) {
@@ -36,6 +43,9 @@ int get_numero(const t_ocean ocean, int px, int py) {
 
 /**************************** SET_CONTENU *****************************/
 /* Assigne un contenu et un numero a une position donnee              */
+/* PARAM: ocean - pointeur vers la grille de l'ocean                  */
+/*        px, py - coordonnees de la case a modifier                  */
+/*        nouv_case - structure t_case avec le nouveau contenu/numero  */
 /**********************************************************************/
 
 void set_contenu(t_ocean* ocean, int px, int py, t_case nouv_case) {
@@ -44,6 +54,8 @@ void set_contenu(t_ocean* ocean, int px, int py, t_case nouv_case) {
 
 /*************************** EFFACER_CASE *****************************/
 /* Effacer le contenu et le numero d'une position donnee              */
+/* PARAM: ocean - pointeur vers la grille de l'ocean                  */
+/*        px, py - coordonnees de la case a effacer                   */
 /**********************************************************************/
 
 void effacer_case(t_ocean* ocean, int px, int py) {
@@ -52,6 +64,9 @@ void effacer_case(t_ocean* ocean, int px, int py) {
 
 /************************** GET_CASES_LIBRES **************************/
 /* Retourne le nombre de cases vides autour d'une position donnee     */
+/* PARAM: ocean - grille de l'ocean (lecture seule)                   */
+/*        px, py - coordonnees de la case a verifier                  */
+/* RETOUR: le nombre de cases voisines libres (valeur entre 0 et 8)   */
 /**********************************************************************/
 
 int get_cases_libres(const t_ocean ocean, int px, int py) {
@@ -119,6 +134,10 @@ int get_cases_libres(const t_ocean ocean, int px, int py) {
 
 /*********************** GET_CASE_VOISINE_ALEA ************************/
 /* Retourne une case voisine libre aleatoire                          */
+/* PARAM: ocean - grille de l'ocean (lecture seule)                   */
+/*        px, py - coordonnees de la case de depart                   */
+/*        rx, ry - pointeurs dans lesquels sont stockees les          */
+/*                 coordonnees de la case voisine libre trouvee        */
 /**********************************************************************/
 
 void get_case_voisine_alea(const t_ocean ocean, int px, int py, int* rx, int* ry) {
@@ -196,6 +215,7 @@ void get_case_voisine_alea(const t_ocean ocean, int px, int py, int* rx, int* ry
 
 /*************************** AFFICHER_OCEAN ***************************/
 /* Affiche les poissons et les requins dans l'ocean                   */
+/* PARAM: ocean - grille de l'ocean (lecture seule)                   */
 /**********************************************************************/
 
 void afficher_ocean(const t_ocean ocean) {

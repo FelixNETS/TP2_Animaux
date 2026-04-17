@@ -1,7 +1,7 @@
 /**********************************************************************/
 /* POISSON.H                                                          */
 /* Module de gestion du cycle de vie des poissons					  */
-/* Conception : Félix Nadeau				                          */
+/* Conception : Fï¿½lix Nadeau				                          */
 /**********************************************************************/
 #include <stdlib.h>
 #include <stdio.h>
@@ -12,10 +12,10 @@
 /*                             CONSTANTES                             */
 /**********************************************************************/
 
-#define MAX_AGE_POISSON		 60		//l’âge maximal d’un poisson  
-#define NB_JRS_PUB_POISSON	 10		//nombre de jours avant la puberté 
+#define MAX_AGE_POISSON		 60		//lï¿½ï¿½ge maximal dï¿½un poisson  
+#define NB_JRS_PUB_POISSON	 10		//nombre de jours avant la pubertï¿½ 
 #define NB_JRS_GEST_POISSON	  5		//nombre de jours de gestation 
-#define ENERGIE_INIT_POISSON  3		//valeur initiale d'énergie d’un bébé-poisson 
+#define ENERGIE_INIT_POISSON  3		//valeur initiale d'ï¿½nergie dï¿½un bï¿½bï¿½-poisson 
 
 /**********************************************************************/
 /*							   STRUCTURES                             */
@@ -55,7 +55,7 @@ void vider_liste_poissons(t_liste_poissons* liste_poissons);
 int get_nb_poissons(t_liste_poissons liste_poissons);
 
 /************************* DEPLACER POISSONS **************************/
-/*	Fonction qui déplace un poisson d'un case voisine				  */
+/*	Fonction qui dï¿½place un poisson d'un case voisine				  */
 /*	PARAMS: struct tableau ocean, struct liste poissons, # du poisson */
 /**********************************************************************/
 
@@ -70,7 +70,7 @@ static t_animal get_poisson(t_liste_poissons liste_poissons, int i);
 
 /**************************** SET POISSON *****************************/
 /*	Fonction qui perment de set les stats d'un poisson choisi		  */
-/*	PARAMS: poisson à modif, stats (age, energie, gestation, pos)	  */
+/*	PARAMS: poisson ï¿½ modif, stats (age, energie, gestation, pos)	  */
 /*	Inscrire -1 dans les champs qui ne sont pas a modifier			  */
 /**********************************************************************/
 
@@ -86,8 +86,10 @@ void eliminer_poisson(t_liste_poissons* liste_poissons,
 	t_ocean* ocean, int i);
 
 /************************* AJOUT BEBE POISSON *************************/
-/*	Fonction fait naître un nouveau poisson et l'ajoute a la liste	  */
-/*	PARAMS:															  */
+/*	Fonction fait naÃ®tre un nouveau poisson et l'ajoute a la liste	  */
+/*	PARAMS: liste des poissons, grille ocean, # du poisson parent     */
+/*	RETOUR: 1 si la naissance a reussi, 0 sinon (pas de place,        */
+/*	        fausse couche ou population maximale atteinte)             */
 /**********************************************************************/
 
 int ajout_bebe_poisson(t_liste_poissons* liste_poissons,
@@ -95,7 +97,7 @@ int ajout_bebe_poisson(t_liste_poissons* liste_poissons,
 
 /*********************** LIBERER LISTE POISSONS ***********************/
 /*	Fonction qui libere la memoire allouee a la liste				  */
-/*	PARAMS: liste des requins										  */
+/*	PARAMS: liste des poissons										  */
 /**********************************************************************/
 
 void liberer_liste_poissons(t_liste_poissons* liste_poissons);

@@ -34,20 +34,39 @@
 int demander_mode();
 
 /*********************** GET_REQUINS_VOISINS **************************/
-/* recherche de requins voisin a un poisson			                  */
+/* Verifie si un requin voisin mange le poisson a la position donnee  */
+/* PARAM: ocean - grille de l'ocean (lecture seule)                   */
+/*        px, py - position du poisson a verifier                     */
+/*        liste_requins - pointeur vers la liste des requins (pour    */
+/*                        incrementer l'energie du requin qui mange)  */
+/* RETOUR: MORT (1) si un requin adjacent a mange le poisson,         */
+/*         VIVANT (0) sinon                                            */
 /**********************************************************************/
 
 int get_requins_voisins(const t_ocean ocean, int px, int py, t_liste_requins* liste_requins);
 
 /************************* TRAITER POISSONS ***************************/
-/* traitement des poissons vivants deplaement et naissance            */
+/* Traitement des poissons vivants : deplacement et reproduction      */
+/* PARAM: l_poissons - pointeur vers la liste des poissons            */
+/*        ocean - pointeur vers la grille de l'ocean                  */
+/*        nb_poissons - nombre de poissons actuellement en vie        */
+/*        pub_poisson - variable de travail pour le statut de puberte  */
+/*        p - variable de travail pour l'indice de boucle             */
 /**********************************************************************/
 
 void traiter_poissons(t_liste_poissons* l_poissons, t_ocean* ocean,
 	int nb_poissons, int pub_poisson, int p);
 
 /********************** TRAITER POISSONS MORTS ************************/
-/* gestion de la mort des poissons					                  */
+/* Supprime de la liste les poissons morts (manges ou trop vieux)     */
+/* PARAM: l_poissons - pointeur vers la liste des poissons            */
+/*        l_requins - pointeur vers la liste des requins (pour        */
+/*                    detecter les requins voisins mangeants)          */
+/*        ocean - pointeur vers la grille de l'ocean                  */
+/*        nb_poissons - pointeur vers le compteur de poissons vivants  */
+/*        p - variable de travail pour l'indice de boucle             */
+/*        px_poisson, py_poisson - variables de travail pour la pos.  */
+/*        statut_poisson - variable de travail pour le statut de mort  */
 /**********************************************************************/
 
 void traiter_poissons_morts(t_liste_poissons* l_poissons, t_liste_requins* l_requins,
@@ -55,14 +74,25 @@ void traiter_poissons_morts(t_liste_poissons* l_poissons, t_liste_requins* l_req
 	int py_poisson, int statut_poisson);
 
 /************************** TRAITER REQUINS ***************************/
-/* traitement des requins vivants deplaement et naissance             */
+/* Traitement des requins vivants : deplacement et reproduction       */
+/* PARAM: l_requins - pointeur vers la liste des requins              */
+/*        ocean - pointeur vers la grille de l'ocean                  */
+/*        nb_requins - nombre de requins actuellement en vie           */
+/*        pub_requin - variable de travail pour le statut de puberte   */
+/*        r - variable de travail pour l'indice de boucle             */
 /**********************************************************************/
 
 void traiter_requins(t_liste_requins* l_requins, t_ocean* ocean, int nb_requins,
 	int pub_requin, int r);
 
 /*********************** TRAITER REQUINS MORTS ************************/
-/* gestion de la mort des requins					                  */
+/* Supprime de la liste les requins morts (faim ou vieillesse)        */
+/* PARAM: l_requins - pointeur vers la liste des requins              */
+/*        ocean - pointeur vers la grille de l'ocean                  */
+/*        nb_requins - pointeur vers le compteur de requins vivants    */
+/*        r - variable de travail pour l'indice de boucle             */
+/*        px_requin, py_requin - variables de travail pour la pos.    */
+/*        statut_requin - variable de travail pour le statut de mort   */
 /**********************************************************************/
 
 void traiter_requins_morts(t_liste_requins* l_requins, t_ocean* ocean,
@@ -88,8 +118,8 @@ void main() {
 		statut_requin = 0,		// Statut d'un requin (Mange/Vivant)
 		pub_requin = 0,			// Valeur pour le statut de la puberte d'un requin
 		pub_poisson = 0,		// Valeur pour le statut de la puberte d'un poisson
-		max_poissons = 500,		// Quantite maximale de poissons permise
-		max_requins = 80;		// Quantite maximale de requins permise
+		max_poissons = 500,		// Quantite maximale de poissons permise dans la liste
+		max_requins = 80;		// Quantite maximale de requins permise dans la liste
 
 	// Initialisation des listes a vide
 	t_liste_poissons l_poissons = {};	// Liste de poissons
@@ -222,7 +252,13 @@ int demander_mode() {
 }
 
 /*********************** GET_REQUINS_VOISINS **************************/
-/* recherche de requins voisin a un poisson			                  */
+/* Verifie si un requin voisin mange le poisson a la position donnee  */
+/* PARAM: ocean - grille de l'ocean (lecture seule)                   */
+/*        px, py - position du poisson a verifier                     */
+/*        liste_requins - pointeur vers la liste des requins (pour    */
+/*                        incrementer l'energie du requin qui mange)  */
+/* RETOUR: MORT (1) si un requin adjacent a mange le poisson,         */
+/*         VIVANT (0) sinon                                            */
 /**********************************************************************/
 
 int get_requins_voisins(const t_ocean ocean, int px, int py, t_liste_requins* liste_requins) {
@@ -286,7 +322,12 @@ int get_requins_voisins(const t_ocean ocean, int px, int py, t_liste_requins* li
 }
 
 /************************* TRAITER POISSONS ***************************/
-/* traitement des poissons vivants deplaement et naissance            */
+/* Traitement des poissons vivants : deplacement et reproduction      */
+/* PARAM: l_poissons - pointeur vers la liste des poissons            */
+/*        ocean - pointeur vers la grille de l'ocean                  */
+/*        nb_poissons - nombre de poissons actuellement en vie        */
+/*        pub_poisson - variable de travail pour le statut de puberte  */
+/*        p - variable de travail pour l'indice de boucle             */
 /**********************************************************************/
 
 void traiter_poissons(t_liste_poissons* l_poissons, t_ocean* ocean,
@@ -318,7 +359,15 @@ void traiter_poissons(t_liste_poissons* l_poissons, t_ocean* ocean,
 }
 
 /********************** TRAITER POISSONS MORTS ************************/
-/* gestion de la mort des poissons					                  */
+/* Supprime de la liste les poissons morts (manges ou trop vieux)     */
+/* PARAM: l_poissons - pointeur vers la liste des poissons            */
+/*        l_requins - pointeur vers la liste des requins (pour        */
+/*                    detecter les requins voisins mangeants)          */
+/*        ocean - pointeur vers la grille de l'ocean                  */
+/*        nb_poissons - pointeur vers le compteur de poissons vivants  */
+/*        p - variable de travail pour l'indice de boucle             */
+/*        px_poisson, py_poisson - variables de travail pour la pos.  */
+/*        statut_poisson - variable de travail pour le statut de mort  */
 /**********************************************************************/
 
 void traiter_poissons_morts(t_liste_poissons* l_poissons, t_liste_requins* l_requins,
@@ -348,7 +397,12 @@ void traiter_poissons_morts(t_liste_poissons* l_poissons, t_liste_requins* l_req
 }
 
 /************************** TRAITER REQUINS ***************************/
-/* traitement des requins vivants deplaement et naissance             */
+/* Traitement des requins vivants : deplacement et reproduction       */
+/* PARAM: l_requins - pointeur vers la liste des requins              */
+/*        ocean - pointeur vers la grille de l'ocean                  */
+/*        nb_requins - nombre de requins actuellement en vie           */
+/*        pub_requin - variable de travail pour le statut de puberte   */
+/*        r - variable de travail pour l'indice de boucle             */
 /**********************************************************************/
 
 void traiter_requins(t_liste_requins* l_requins, t_ocean* ocean, int nb_requins, int pub_requin, int r) {
@@ -379,7 +433,13 @@ void traiter_requins(t_liste_requins* l_requins, t_ocean* ocean, int nb_requins,
 }
 
 /*********************** TRAITER REQUINS MORTS ************************/
-/* gestion de la mort des requins					                  */
+/* Supprime de la liste les requins morts (faim ou vieillesse)        */
+/* PARAM: l_requins - pointeur vers la liste des requins              */
+/*        ocean - pointeur vers la grille de l'ocean                  */
+/*        nb_requins - pointeur vers le compteur de requins vivants    */
+/*        r - variable de travail pour l'indice de boucle             */
+/*        px_requin, py_requin - variables de travail pour la pos.    */
+/*        statut_requin - variable de travail pour le statut de mort   */
 /**********************************************************************/
 
 void traiter_requins_morts(t_liste_requins* l_requins, t_ocean* ocean,
